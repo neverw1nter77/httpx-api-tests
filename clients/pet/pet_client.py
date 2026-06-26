@@ -1,7 +1,7 @@
 from clients.api_client import APIClient
 from typing import BinaryIO
 from httpx import Response
-from clients.pet.pet_schema import CreatePetRequestSchema, CreatePetResponseSchema
+from clients.pet.pet_schema import CreatePetRequestSchema, CreatePetResponseSchema, UpdatePetRequestSchema
 from tools.routes import APIRoutes
 from clients.http_builder import get_http_client
 
@@ -17,7 +17,7 @@ class PetClient(APIClient):
         """
         return self.post(APIRoutes.PET, json=request.model_dump(by_alias=True))
 
-    def update_pet_api(self, request: CreatePetRequestSchema) -> Response:
+    def update_pet_api(self, request: UpdatePetRequestSchema) -> Response:
         """
         Полное обновление питомца.
 

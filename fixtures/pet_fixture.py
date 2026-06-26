@@ -14,7 +14,7 @@ def pet_client() -> PetClient:
 
 @pytest.fixture
 def function_pet(pet_client: PetClient) -> PetFixture:
-    # использует клиент и создаёт питомца
+    # используем клиент и создаём питомца
     request = CreatePetRequestSchema()
     response = pet_client.create_pet(request)
     return PetFixture(request=request, response=response)

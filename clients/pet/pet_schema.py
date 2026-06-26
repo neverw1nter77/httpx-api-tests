@@ -40,3 +40,16 @@ class CreatePetRequestSchema(BaseModel):
 
 class CreatePetResponseSchema(PetSchema):
     pass
+
+class UpdatePetRequestSchema(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    id: int = Field(default_factory=fake.id)
+    category: CategorySchema = Field(default_factory=lambda: CategorySchema(id=fake.id(), name=fake.category_name()))
+    name: str = Field(default_factory=fake.pet_name)
+    photo_urls: list[str] = Field(alias="photoUrls", default_factory=lambda: [fake.photo_url()])
+    tags: list[TagSchema] = Field(default_factory=lambda: [TagSchema(id=fake.id(), name=fake.tag_name())])
+    status: str = Field(default_factory=fake.status)
+
+class UpdatePetResponseSchema(PetSchema):
+    pass
