@@ -24,3 +24,13 @@ def assert_update_pet_response(
     assert_equal(response.id, request.id, "id")
     assert_equal(response.name, request.name, "name")
     assert_equal(response.status, request.status, "status")
+
+def assert_get_pet_by_status_response(expected_pet, response_list):
+    assert len(response_list) > 0, "Response list is empty"
+    pet = next((item for item in response_list if item.id == expected_pet.id), None)
+    assert pet is not None, f"Pet with id {expected_pet.id} not found in response"
+
+    assert_equal(pet.id, expected_pet.id, "id")
+    assert_equal(pet.name, expected_pet.name, "name")
+    assert_equal(pet.status, expected_pet.status, "status")
+
