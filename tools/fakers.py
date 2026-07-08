@@ -1,5 +1,5 @@
 from faker import Faker
-
+from datetime import datetime
 class Fake:
 
     def __init__(self, faker: Faker):
@@ -25,5 +25,21 @@ class Fake:
 
     def id(self) -> int:
         return self.faker.random_int(min=1, max=10000)
+
+    def uuid4(self) -> str:
+        return self.faker.uuid4()
+
+    def quantity(self) -> int:
+        return self.faker.random_int(min=1, max=10)
+
+    def ship_date(self) -> datetime:
+        return self.faker.date_time()
+
+    def status_store(self) -> str:
+        return self.faker.random_element(["placed", "approved", "delivered"])
+
+    def complete(self) -> bool:
+        return self.faker.boolean()
+
 
 fake = Fake(faker=Faker())

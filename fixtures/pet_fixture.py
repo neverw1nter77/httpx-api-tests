@@ -15,11 +15,10 @@ def pet_client() -> PetClient:
 @pytest.fixture
 def function_pet(pet_client: PetClient):
     request = CreatePetRequestSchema()
-    response = pet_client.create_pet_api(request)
-    response_data = CreatePetResponseSchema.model_validate_json(response.text)
+    response = pet_client.create_pet(request)
 
     return PetFixture(
         request=request,
-        response=response_data
+        response=response
     )
 

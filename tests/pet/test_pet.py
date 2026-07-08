@@ -77,7 +77,10 @@ class TestPet:
 
         response = pet_client.post("/pet", json=request)
 
-        assert response.status_code != HTTPStatus.OK
+        assert response.status_code in [
+            HTTPStatus.BAD_REQUEST,
+            HTTPStatus.INTERNAL_SERVER_ERROR
+        ]
 
         response_data = response.json()
         print(response_data)
