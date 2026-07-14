@@ -41,5 +41,25 @@ class Fake:
     def complete(self) -> bool:
         return self.faker.boolean()
 
+    def first_name(self) -> str:
+        return self.faker.first_name()
+
+    def last_name(self) -> str:
+        return self.faker.last_name()
+
+    def user_name(self) -> str:
+        return self.faker.name()
+
+    def user_email(self) -> str:
+        return self.faker.email()
+
+    def user_password(self) -> str:
+        return self.faker.password()
+
+    def user_phone(self) -> str:
+        return self.faker.phone_number()
+
+    def user_status(self) -> int:
+        return self.faker.random_int(min=0, max=999)
 
 fake = Fake(faker=Faker())
