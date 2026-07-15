@@ -3,7 +3,7 @@ from httpx import Response
 from clients.http_builder import get_http_client
 from tools.routes import APIRoutes
 from clients.user.user_schema import (CreateUserRequestSchema, CreateUserResponseSchema, UpdateUserRequestSchema,
-                                      UpdateUserResponseSchema)
+                                      UpdateUserResponseSchema, LoginRequestSchema)
 
 class UserClient(APIClient):
 
@@ -43,10 +43,10 @@ class UserClient(APIClient):
         """
         return self.delete(f"{APIRoutes.USER}/{username}")
 
-    def login_api(self, username: str, password: str) -> Response:
+    def login_api(self, request: LoginRequestSchema) -> Response:
         return self.get(
             f"{APIRoutes.USER}/login",
-            params={"username": username, "password": password}
+            params=request.model_dump()
         )
 
     def logout_api(self) -> Response:

@@ -48,3 +48,12 @@ class UpdateUserRequestSchema(BaseModel):
 class UpdateUserResponseSchema(UserApiResponse):
     pass
 
+class LoginRequestSchema(BaseModel):
+    username: str
+    password: str
+
+
+class LoginResponseSchema(BaseModel):
+    code: int
+    type: str
+    message: str
