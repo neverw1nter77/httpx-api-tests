@@ -1,3 +1,5 @@
+import allure
+
 from clients.api_client import APIClient
 from httpx import Response
 from clients.store.store_schema import CreateOrderResponseSchema, CreateOrderRequestSchema
@@ -5,6 +7,7 @@ from clients.http_builder import get_http_client
 from tools.routes import APIRoutes
 class OrderClient(APIClient):
 
+    @allure.step("Create order")
     def create_order_api(self, request: CreateOrderRequestSchema) -> Response:
         """
         Создание заказа.
@@ -14,6 +17,7 @@ class OrderClient(APIClient):
         """
         return self.post(f"{APIRoutes.STORE}/order", json=request.model_dump(by_alias=True, mode="json"))
 
+    @allure.step("Get order by id: {order_id}")
     def get_order_by_id_api(self, order_id: int) -> Response:
         """
         Получение заказа по ID.
@@ -23,6 +27,7 @@ class OrderClient(APIClient):
         """
         return self.get(f"{APIRoutes.STORE}/order/{order_id}")
 
+    @allure.step("Get store inventory")
     def get_store_inventory_api(self) -> Response:
         """
         Получение списка инвенторя.
@@ -31,6 +36,7 @@ class OrderClient(APIClient):
         """
         return self.get(f"{APIRoutes.STORE}/inventory")
 
+    @allure.step("Delete order by id: {order_id}")
     def delete_order_by_id_api(self, order_id: int) -> Response:
         """
         Удаление заказа.
