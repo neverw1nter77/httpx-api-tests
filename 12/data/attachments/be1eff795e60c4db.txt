@@ -1,0 +1,7 @@
+curl -X 'DELETE' \
+  'https://petstore.swagger.io/v2/pet/5596' \
+  -H 'host: petstore.swagger.io' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1'

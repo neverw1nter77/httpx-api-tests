@@ -1,0 +1,10 @@
+curl -X 'POST' \
+  'https://petstore.swagger.io/v2/pet' \
+  -H 'host: petstore.swagger.io' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'content-length: 168' \
+  -H 'content-type: application/json' \
+  -d '{"id":1016,"category":{"id":4013,"name":"dog"},"name":"Cynthia","photoUrls":["https://placekittens.com/499/655"],"tags":[{"id":1452,"name":"cover"}],"status":"pending"}'
