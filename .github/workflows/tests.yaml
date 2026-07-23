@@ -30,16 +30,44 @@ jobs:
         run: |
           pytest --alluredir=allure-results
 
-      - name: Generate Allure Report
-        uses: simple-elf/allure-report-action@v1
+      - name: Upload Allure results
         if: always()
-        with:
-          allure_results: allure-results
-          allure_report: allure-report
-
-      - name: Upload Allure Report
         uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: allure-results
+
+  publish-report:
+    needs: run-tests
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: Check out repository (gh-pages branch)
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+        continue-on-error: true
+
+      - name: Download Allure results
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-results
+          path: allure-results
+
+      # ✅ НОВЫЙ стабильный экшен (без сломанного Docker)
+      - name: Generate Allure Report
+        uses: andgineer/allure-report@v3
         if: always()
         with:
-          name: allure-report
-          path: allure-report
+          allure-results: allure-results
+          website: allure-report
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-report
