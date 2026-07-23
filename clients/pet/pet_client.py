@@ -11,7 +11,7 @@ class PetClient(APIClient):
     @allure.step("Create pet")
     def create_pet_api(self, request: CreatePetRequestSchema) -> Response:
         """
-        Создание пит омца.
+        Создание питомца.
 
         :param request: Тело запроса с данными питомца
         :return: Ответ от сервера (httpx.Response)
