@@ -1,0 +1,10 @@
+curl -X 'POST' \
+  'https://petstore.swagger.io/v2/store/order' \
+  -H 'host: petstore.swagger.io' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'content-length: 113' \
+  -H 'content-type: application/json' \
+  -d '{"id":1154,"petId":2066,"quantity":3,"shipDate":"2024-10-25T03:21:06.872183","status":"approved","complete":true}'

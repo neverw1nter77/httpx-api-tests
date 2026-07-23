@@ -1,0 +1,10 @@
+curl -X 'POST' \
+  'https://petstore.swagger.io/v2/pet' \
+  -H 'host: petstore.swagger.io' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'content-length: 168' \
+  -H 'content-type: application/json' \
+  -d '{"id":3492,"category":{"id":4650,"name":"cat"},"name":"Michelle","photoUrls":["https://dummyimage.com/168x548"],"tags":[{"id":5537,"name":"doctor"}],"status":"pending"}'

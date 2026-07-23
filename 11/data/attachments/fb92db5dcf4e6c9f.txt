@@ -1,0 +1,6 @@
+INFO     clients.event_hooks:event_hooks.py:16 Make POST request to https://petstore.swagger.io/v2/store/order
+INFO     clients.event_hooks:event_hooks.py:20 Got response 200 OK from https://petstore.swagger.io/v2/store/order
+INFO     clients.event_hooks:event_hooks.py:16 Make DELETE request to https://petstore.swagger.io/v2/store/order/7554
+INFO     clients.event_hooks:event_hooks.py:20 Got response 200 OK from https://petstore.swagger.io/v2/store/order/7554
+INFO     clients.event_hooks:event_hooks.py:16 Make GET request to https://petstore.swagger.io/v2/store/order/7554
+INFO     clients.event_hooks:event_hooks.py:20 Got response 404 Not Found from https://petstore.swagger.io/v2/store/order/7554
