@@ -26,23 +26,20 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Install Allure
-        run: |
-          sudo apt-add-repository ppa:qameta/allure
-          sudo apt-get update
-          sudo apt-get install allure
-
       - name: Run API tests
         run: |
           pytest --alluredir=allure-results
 
-      - name: Generate Allure report
-        run: |
-          allure generate allure-results -o allure-report --clean
-
-      - name: Upload Allure report
+      - name: Generate Allure Report
+        uses: simple-elf/allure-report-action@v1
         if: always()
+        with:
+          allure_results: allure-results
+          allure_report: allure-report
+
+      - name: Upload Allure Report
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: allure-report
           path: allure-report
