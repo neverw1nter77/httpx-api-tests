@@ -1,0 +1,10 @@
+curl -X 'PUT' \
+  'https://petstore.swagger.io/v2/user/Mark%20Rogers' \
+  -H 'host: petstore.swagger.io' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'content-length: 171' \
+  -H 'content-type: application/json' \
+  -d '{"id":2184,"username":"Mark Rogers","firstName":"Johnathan","lastName":"Hughes","email":"example@test.com","password":"123456","phone":"001-781-246-3739","userStatus":855}'
