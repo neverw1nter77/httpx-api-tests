@@ -43,12 +43,11 @@ jobs:
     if: always()
 
     steps:
-      # 👉 ВАЖНО: забираем gh-pages (историю)
+      # ✅ забираем gh-pages как history
       - name: Checkout gh-pages
         uses: actions/checkout@v4
         with:
           ref: gh-pages
-          path: gh-pages
         continue-on-error: true
 
       - name: Download Allure results
@@ -57,12 +56,12 @@ jobs:
           name: allure-results
           path: allure-results
 
-      # ✅ ТОТ САМЫЙ рабочий экшен
+      # ✅ генерация
       - name: Generate Allure Report with history
         uses: simple-elf/allure-report-action@v1.13
         with:
           allure_results: allure-results
-          allure_history: gh-pages
+          allure_history: .
 
       # 🚀 деплой
       - name: Deploy to GitHub Pages
