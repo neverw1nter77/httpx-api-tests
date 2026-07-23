@@ -43,13 +43,6 @@ jobs:
     if: always()
 
     steps:
-      - name: Check out repository (gh-pages branch)
-        uses: actions/checkout@v4
-        with:
-          ref: gh-pages
-          path: gh-pages
-        continue-on-error: true
-
       - name: Download Allure results
         uses: actions/download-artifact@v4
         with:
@@ -62,17 +55,16 @@ jobs:
           allure-results: allure-results
           website: allure-report
 
-      # ✅ ВАЖНО: фикс структуры
-      - name: Fix report structure
+      # 🔥 ВАЖНЫЙ ФИКС
+      - name: Move report to root
         run: |
-          ls -R
-          if [ -d "allure-report/allure-report" ]; then
-            mv allure-report/allure-report/* allure-report/
-          fi
+          mkdir public
+          cp -r allure-report/* public/
+          touch public/.nojekyll
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: allure-report
+          publish_dir: public
