@@ -56,17 +56,22 @@ jobs:
           name: allure-results
           path: allure-results
 
-      # ✅ НОВЫЙ стабильный экшен (без сломанного Docker)
       - name: Generate Allure Report
         uses: andgineer/allure-report@v3
-        if: always()
         with:
           allure-results: allure-results
           website: allure-report
 
+      # ✅ ВАЖНО: фикс структуры
+      - name: Fix report structure
+        run: |
+          ls -R
+          if [ -d "allure-report/allure-report" ]; then
+            mv allure-report/allure-report/* allure-report/
+          fi
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
-        if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
