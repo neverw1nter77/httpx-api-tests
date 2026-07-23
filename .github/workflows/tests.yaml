@@ -32,7 +32,7 @@ jobs:
     if: always()
 
     steps:
-      # ✅ забираем gh-pages
+
       - name: Checkout gh-pages
         uses: actions/checkout@v4
         with:
@@ -45,7 +45,7 @@ jobs:
           name: allure-results
           path: allure-results
 
-      # 🔥 ВАЖНО: создаём history вручную
+
       - name: Prepare history
         run: |
           mkdir -p allure-history
@@ -53,14 +53,14 @@ jobs:
             cp -r history allure-history/
           fi
 
-      # ✅ генерация
+
       - name: Generate Allure Report
         uses: simple-elf/allure-report-action@v1.13
         with:
           allure_results: allure-results
           allure_history: allure-history
 
-      # 🚀 деплой
+
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         with:

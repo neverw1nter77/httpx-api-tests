@@ -45,7 +45,7 @@ class TestPet:
     def test_update_pet(self, function_pet: PetFixture, pet_client: PetClient):
         request = UpdatePetRequestSchema(
             id=function_pet.response.id,
-            name="BarsikTest",
+            name="BarsiTest",
             category=function_pet.response.category,
             photoUrls=function_pet.response.photo_urls,
             tags=function_pet.response.tags,
