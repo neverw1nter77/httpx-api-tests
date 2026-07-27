@@ -53,7 +53,7 @@ class PetClient(APIClient):
         """
         Uploads an image for a pet.
 
-        :param pet_id: Pet  ID.
+        :param pet_id: Pet ID.
         :param file: Image file (binary stream).
         :return: Raw HTTP response.
         """
