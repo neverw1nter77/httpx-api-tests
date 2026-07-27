@@ -1,0 +1,6 @@
+INFO     clients.event_hooks:event_hooks.py:26 Make POST request to https://petstore.swagger.io/v2/user
+INFO     clients.event_hooks:event_hooks.py:35 Got response 200 OK from https://petstore.swagger.io/v2/user
+INFO     clients.event_hooks:event_hooks.py:26 Make PUT request to https://petstore.swagger.io/v2/user/Mrs.%20Caroline%20Williams%20PhD
+INFO     clients.event_hooks:event_hooks.py:35 Got response 200 OK from https://petstore.swagger.io/v2/user/Mrs.%20Caroline%20Williams%20PhD
+INFO     clients.event_hooks:event_hooks.py:26 Make GET request to https://petstore.swagger.io/v2/user/Mrs.%20Caroline%20Williams%20PhD
+INFO     clients.event_hooks:event_hooks.py:35 Got response 200 OK from https://petstore.swagger.io/v2/user/Mrs.%20Caroline%20Williams%20PhD

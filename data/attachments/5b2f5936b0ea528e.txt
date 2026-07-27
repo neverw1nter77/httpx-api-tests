@@ -1,0 +1,10 @@
+curl -X 'PUT' \
+  'https://petstore.swagger.io/v2/user/Mrs.%20Caroline%20Williams%20PhD' \
+  -H 'host: petstore.swagger.io' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'content-length: 187' \
+  -H 'content-type: application/json' \
+  -d '{"id":5937,"username":"Mrs. Caroline Williams PhD","firstName":"Natasha","lastName":"Hale","email":"example@test.com","password":"123456","phone":"001-853-907-2783x3883","userStatus":502}'

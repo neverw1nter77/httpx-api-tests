@@ -1,0 +1,10 @@
+curl -X 'POST' \
+  'https://petstore.swagger.io/v2/pet' \
+  -H 'host: petstore.swagger.io' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'content-length: 165' \
+  -H 'content-type: application/json' \
+  -d '{"id":2721,"category":{"id":9771,"name":"cat"},"name":"James","photoUrls":["https://placekittens.com/616/875"],"tags":[{"id":6569,"name":"nice"}],"status":"pending"}'
