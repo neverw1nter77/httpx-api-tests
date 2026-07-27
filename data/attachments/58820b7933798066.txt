@@ -1,0 +1,10 @@
+curl -X 'POST' \
+  'https://petstore.swagger.io/v2/pet' \
+  -H 'host: petstore.swagger.io' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'content-length: 170' \
+  -H 'content-type: application/json' \
+  -d '{"id":1758,"category":{"id":665,"name":"bird"},"name":"Trevor","photoUrls":["https://placekittens.com/775/64"],"tags":[{"id":5531,"name":"prepare"}],"status":"available"}'

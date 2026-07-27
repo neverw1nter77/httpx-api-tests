@@ -1,0 +1,10 @@
+curl -X 'POST' \
+  'https://petstore.swagger.io/v2/pet' \
+  -H 'host: petstore.swagger.io' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'content-length: 168' \
+  -H 'content-type: application/json' \
+  -d '{"id":3029,"category":{"id":7282,"name":"bird"},"name":"Douglas","photoUrls":["https://placekittens.com/557/451"],"tags":[{"id":6882,"name":"next"}],"status":"pending"}'

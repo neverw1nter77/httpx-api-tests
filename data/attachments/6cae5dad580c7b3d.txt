@@ -1,0 +1,10 @@
+curl -X 'POST' \
+  'https://petstore.swagger.io/v2/pet' \
+  -H 'host: petstore.swagger.io' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'content-length: 160' \
+  -H 'content-type: application/json' \
+  -d '{"id":7225,"category":{"id":2771,"name":"bird"},"name":"Jaime","photoUrls":["https://dummyimage.com/832x77"],"tags":[{"id":2650,"name":"game"}],"status":"sold"}'
