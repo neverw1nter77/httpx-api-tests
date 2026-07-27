@@ -7,7 +7,7 @@ on:
   pull_request:
     branches:
       - main
-  workflow_dispatch:  # Ручной запуск
+  workflow_dispatch:
 
 jobs:
   run-tests:
@@ -27,16 +27,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Убираем swagger-coverage-tool, если он не используется в Petstore проекте
-      # Если используете - раскомментируйте и настройте
-      # - name: Install swagger-coverage-tool
-      #   run: npm install -g swagger-coverage-tool
-
-      - name: Run Petstore API tests with pytest and generate Allure results
+      - name: Run Petstore API tests
         run: |
           pytest --alluredir=allure-results
 
-      # Загружаем Allure результаты как артефакт для следующего job'а
       - name: Upload Allure results
         if: always()
         uses: actions/upload-artifact@v4
@@ -45,38 +39,71 @@ jobs:
           path: allure-results
 
   publish-report:
-    if: always()  # Всегда публикуем отчёт, даже если тесты упали
-    needs: [ run-tests ]  # Ждём завершения run-tests
+    if: always()
+    needs: [ run-tests ]
     runs-on: ubuntu-latest
 
     steps:
-      # Клонируем ветку gh-pages для сохранения истории отчётов
-      - name: Check out gh-pages branch
+      # Клонируем ветку gh-pages для получения истории
+      - name: Checkout gh-pages branch
         uses: actions/checkout@v4
         with:
           ref: gh-pages
           path: gh-pages
 
-      # Скачиваем Allure результаты из предыдущего job'а
+      # Скачиваем результаты тестов
       - name: Download Allure results
         uses: actions/download-artifact@v4
         with:
           name: allure-results
           path: allure-results
 
-      # Генерируем Allure отчёт с историей
-      - name: Generate Allure Report with history
-        uses: simple-elf/allure-report-action@v1.13
-        if: always()
-        with:
-          allure_results: allure-results
-          allure_history: allure-history
+      # Устанавливаем Allure командной строки
+      - name: Install Allure
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y allure
 
-      # Деплоим отчёт на GitHub Pages
-      - name: Deploy report to Github Pages
-        if: always()
+      # Копируем историю из gh-pages, если она существует
+      - name: Copy history from gh-pages
+        run: |
+          if [ -d "gh-pages/history" ]; then
+            mkdir -p allure-results/history
+            cp -r gh-pages/history/* allure-results/history/ || true
+            echo "History copied successfully"
+          else
+            echo "No history found in gh-pages, starting fresh"
+          fi
+
+      # Генерируем отчёт
+      - name: Generate Allure Report
+        run: |
+          allure generate allure-results -o allure-report --clean
+
+      # Подготавливаем структуру для gh-pages
+      - name: Prepare gh-pages structure
+        run: |
+          # Создаём папку для новой истории
+          mkdir -p allure-history/history
+          
+          # Копируем сгенерированный отчёт
+          cp -r allure-report/* allure-history/ || true
+          
+          # Копируем историю из сгенерированного отчёта
+          if [ -d "allure-report/history" ]; then
+            cp -r allure-report/history/* allure-history/history/ || true
+          fi
+          
+          # Копируем существующую историю из gh-pages
+          if [ -d "gh-pages/history" ]; then
+            cp -r gh-pages/history/* allure-history/history/ || true
+          fi
+
+      # Деплоим на GitHub Pages
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: allure-history
+          publish_dir: ./allure-history
+          keep_files: true  # Сохраняем историю
