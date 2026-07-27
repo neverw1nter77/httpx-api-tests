@@ -27,41 +27,32 @@ jobs:
           path: allure-results
 
   publish-report:
-    needs: run-tests
-    runs-on: ubuntu-latest
     if: always()
+    needs: [ run-tests ]
+    runs-on: ubuntu-latest
 
     steps:
-
-      - name: Checkout gh-pages
+      - name: Check out repository
         uses: actions/checkout@v4
         with:
           ref: gh-pages
-        continue-on-error: true
+          path: gh-pages
 
-      - name: Download results
+      - name: Download Allure results
         uses: actions/download-artifact@v4
         with:
           name: allure-results
           path: allure-results
 
-
-      - name: Prepare history
-        run: |
-          mkdir -p allure-history
-          if [ -d history ]; then
-            cp -r history allure-history/
-          fi
-
-
-      - name: Generate Allure Report
+      - name: Generate Allure Report with history
         uses: simple-elf/allure-report-action@v1.13
+        if: always()
         with:
           allure_results: allure-results
           allure_history: allure-history
 
-
-      - name: Deploy
+      - name: Deploy report to Github Pages
+        if: always()
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
