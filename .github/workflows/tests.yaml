@@ -10,19 +10,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Install deps
-        run: pip install -r requirements.txt
+      - run: pip install -r requirements.txt
 
-      - name: Run tests
-        run: pytest --alluredir=allure-results
+      - run: pytest --alluredir=allure-results
 
       - name: Upload results
         uses: actions/upload-artifact@v4
@@ -36,6 +32,7 @@ jobs:
     if: always()
 
     steps:
+
       - name: Checkout gh-pages
         uses: actions/checkout@v4
         with:
@@ -48,19 +45,21 @@ jobs:
           name: allure-results
           path: allure-results
 
+
       - name: Prepare history
         run: |
           mkdir -p allure-history
-          if [ -d allure-history/history ]; then
-            cp -r allure-history/history ./history
+          if [ -d history ]; then
+            cp -r history allure-history/
           fi
+
 
       - name: Generate Allure Report
         uses: simple-elf/allure-report-action@v1.13
         with:
           allure_results: allure-results
-          allure_report: allure-report
           allure_history: allure-history
+
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
