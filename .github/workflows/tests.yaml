@@ -2,108 +2,70 @@ name: Petstore API Tests
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
-  run-tests:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run Petstore API tests
+      - name: Run tests
         run: |
           pytest --alluredir=allure-results
 
-      - name: Upload Allure results
-        if: always()
+      - name: Upload results
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: allure-results
           path: allure-results
 
-  publish-report:
+  Publish-report:
     if: always()
-    needs: [ run-tests ]
+    needs: test
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout gh-pages
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           ref: gh-pages
           path: gh-pages
 
-      - name: Download Allure results
-        uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v4
         with:
           name: allure-results
           path: allure-results
 
-
       - name: Install Allure
         run: |
-          sudo apt-get update
-          sudo apt-get install -y wget unzip
           wget https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.zip
-          sudo unzip allure-2.27.0.zip -d /opt/
+          unzip allure-2.27.0.zip
+          sudo mv allure-2.27.0 /opt/
           sudo ln -s /opt/allure-2.27.0/bin/allure /usr/local/bin/allure
-          allure --version
 
-      - name: Generate Allure Report
+      - name: Generate report
         run: |
-          
-          if [ -d "gh-pages/history" ]; then
-            mkdir -p allure-results/history
-            cp -r gh-pages/history/* allure-results/history/ || true
-            echo "History copied from gh-pages"
-          else
-            echo "No history found, starting fresh"
-          fi
-          
-          
+          [ -d "gh-pages/history" ] && cp -r gh-pages/history/* allure-results/history/ || true
           allure generate allure-results -o allure-report --clean
-          
-          echo "Report generated successfully"
 
-      - name: Prepare for deployment
-        run: |
-          mkdir -p deploy
-          cp -r allure-report/* deploy/ || true
-          if [ -d "allure-report/history" ]; then
-            mkdir -p deploy/history
-            cp -r allure-report/history/* deploy/history/ || true
-          fi
-          if [ -d "gh-pages/history" ]; then
-            mkdir -p deploy/history
-            cp -r gh-pages/history/* deploy/history/ || true
-          fi
-          if [ -f "gh-pages/.nojekyll" ]; then
-            cp gh-pages/.nojekyll deploy/ || true
-          fi
-          
-          echo "Deploy folder prepared"
-
-      - name: Deploy to GitHub Pages
+      - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: ./deploy
+          publish_dir: allure-report
           keep_files: true
