@@ -10,15 +10,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - run: pip install -r requirements.txt
+      - name: Install deps
+        run: pip install -r requirements.txt
 
-      - run: pytest --alluredir=allure-results
+      - name: Run tests
+        run: pytest --alluredir=allure-results
 
       - name: Upload results
         uses: actions/upload-artifact@v4
@@ -32,8 +36,11 @@ jobs:
     if: always()
 
     steps:
-      - name: Checkout repo (main, не gh-pages!)
+      - name: Checkout gh-pages
         uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+        continue-on-error: true
 
       - name: Download results
         uses: actions/download-artifact@v4
@@ -41,8 +48,12 @@ jobs:
           name: allure-results
           path: allure-results
 
-      # 👉 ВАЖНО: убрали кривую работу с history
-      # 👉 Action сам всё сделает
+      - name: Prepare history
+        run: |
+          mkdir -p allure-history
+          if [ -d allure-history/history ]; then
+            cp -r allure-history/history ./history
+          fi
 
       - name: Generate Allure Report
         uses: simple-elf/allure-report-action@v1.13
