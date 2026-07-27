@@ -31,15 +31,6 @@ jobs:
         run: |
           pytest --alluredir=allure-results
 
-      - name: Check if tests created files
-        run: |
-          echo "=== Содержимое allure-results ==="
-          ls -la allure-results/ || echo "Папка allure-results пуста или не существует!"
-          echo "=== Количество JSON файлов ==="
-          find allure-results/ -name "*.json" 2>/dev/null | wc -l
-          echo "=== Первые 5 файлов ==="
-          ls -la allure-results/ | head -6 || echo "Нет файлов"
-
       - name: Upload Allure results
         if: always()
         uses: actions/upload-artifact@v4
@@ -65,52 +56,56 @@ jobs:
           name: allure-results
           path: allure-results
 
-      - name: Check what was downloaded
+      # Генерируем отчёт через Docker с Allure
+      - name: Generate Allure Report
         run: |
-          echo "=== Текущая директория ==="
-          pwd
-          echo "=== Что скачалось в allure-results ==="
-          ls -la allure-results/ || echo "Папка allure-results пуста или не существует!"
-          echo "=== Сколько JSON файлов ==="
-          find allure-results/ -name "*.json" 2>/dev/null | wc -l
-          echo "=== Содержимое gh-pages ==="
-          ls -la gh-pages/ || echo "Папка gh-pages пуста или не существует!"
+          # Копируем историю из gh-pages если есть
+          if [ -d "gh-pages/history" ]; then
+            mkdir -p allure-results/history
+            cp -r gh-pages/history/* allure-results/history/ || true
+            echo "History copied from gh-pages"
+          else
+            echo "No history found, starting fresh"
+          fi
+          
+          # Генерируем отчёт через Docker
+          docker run --rm -v $(pwd):/app -w /app franko/allure:2.27.0 \
+            allure generate allure-results -o allure-report --clean
+          
+          echo "Report generated successfully"
 
-      - name: Create last-history directory if not exists
+      # Подготавливаем структуру для публикации
+      - name: Prepare for deployment
         run: |
-          mkdir -p gh-pages/last-history
-          mkdir -p allure-history
-          echo "Папки созданы"
+          # Создаём папку для деплоя
+          mkdir -p deploy
+          
+          # Копируем сгенерированный отчёт
+          cp -r allure-report/* deploy/ || true
+          
+          # Сохраняем историю для будущих запусков
+          if [ -d "allure-report/history" ]; then
+            mkdir -p deploy/history
+            cp -r allure-report/history/* deploy/history/ || true
+          fi
+          
+          # Если есть старая история из gh-pages, сохраняем её
+          if [ -d "gh-pages/history" ]; then
+            mkdir -p deploy/history
+            cp -r gh-pages/history/* deploy/history/ || true
+          fi
+          
+          # Копируем .nojekyll если есть
+          if [ -f "gh-pages/.nojekyll" ]; then
+            cp gh-pages/.nojekyll deploy/ || true
+          fi
+          
+          echo "Deploy folder prepared"
 
-      - name: Check structure before Allure generation
-        run: |
-          echo "=== Проверка структуры перед генерацией Allure ==="
-          echo "allure-results существует: $(test -d allure-results && echo ДА || echo НЕТ)"
-          echo "gh-pages/last-history существует: $(test -d gh-pages/last-history && echo ДА || echo НЕТ)"
-          echo "allure-history существует: $(test -d allure-history && echo ДА || echo НЕТ)"
-          echo "=== Файлы в allure-results (первые 10) ==="
-          ls -la allure-results/ | head -10 || echo "Нет файлов"
-
-      - name: Generate Allure Report with history
-        uses: simple-elf/allure-report-action@v1.13
-        if: always()
-        with:
-          allure_results: allure-results
-          allure_history: allure-history
-
-      - name: Check generated report
-        run: |
-          echo "=== Содержимое allure-report ==="
-          ls -la allure-report/ || echo "Папка allure-report не создалась!"
-          echo "=== Содержимое allure-history ==="
-          ls -la allure-history/ || echo "Папка allure-history не создалась!"
-          echo "=== Содержимое allure-history/last-history ==="
-          ls -la allure-history/last-history/ 2>/dev/null || echo "Папка last-history не создалась!"
-
-      - name: Deploy report to Github Pages
-        if: always()
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: allure-history
+          publish_dir: ./deploy
+          keep_files: true
