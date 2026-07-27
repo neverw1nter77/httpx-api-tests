@@ -4,9 +4,9 @@ from clients.event_hooks import curl_event_hook, log_request_event_hook, log_res
 
 def get_http_client() -> Client:
     """
-    Создаёт базовый HTTP клиент.
+    Creates a base HTTP client.
 
-    :return: httpx.Client
+    :return: httpx.Client instance
     """
     return Client(
         base_url="https://petstore.swagger.io/v2",

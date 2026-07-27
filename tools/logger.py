@@ -2,6 +2,12 @@ import logging
 
 
 def get_logger(name: str):
+    """
+    Creates and configures a logger instance.
+
+    :param name: Logger name.
+    :return: Configured logger instance.
+    """
     logger = logging.getLogger(name)
 
     if not logger.handlers:

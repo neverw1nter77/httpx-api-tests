@@ -11,73 +11,73 @@ class PetClient(APIClient):
     @allure.step("Create pet")
     def create_pet_api(self, request: CreatePetRequestSchema) -> Response:
         """
-        Создание питомца.
+        Creates a new pet.
 
-        :param request: Тело запроса с данными питомца
-        :return: Ответ от сервера (httpx.Response)
+        :param request: Request body with pet data.
+        :return: Raw HTTP response.
         """
         return self.post(APIRoutes.PET, json=request.model_dump(by_alias=True))
 
     @allure.step("Update pet (PUT)")
     def update_pet_api(self, request: UpdatePetRequestSchema) -> Response:
         """
-        Полное обновление питомца.
+        Fully updates a pet.
 
-        :param request: Тело запроса с обновлёнными данными питомца
-        :return: Ответ от сервера (httpx.Response)
+        :param request: Request body with updated pet data.
+        :return: Raw HTTP response.
         """
         return self.put(APIRoutes.PET, json=request.model_dump(by_alias=True))
 
     @allure.step("Get pet by id: {pet_id}")
     def get_pet_by_id_api(self, pet_id: int) -> Response:
         """
-        Получение питомца по ID.
+        Retrieves a pet by its ID.
 
-        :param pet_id: ID питомца
-        :return: Ответ от сервера (httpx.Response)
+        :param pet_id: Pet ID.
+        :return: Raw HTTP response.
         """
         return self.get(f"{APIRoutes.PET}/{pet_id}")
 
     @allure.step("Get pets by status: {status}")
     def get_pet_by_status_api(self, status: str) -> Response:
         """
-        Получение списка питомцев по статусу.
+        Retrieves a list of pets filtered by status.
 
-        :param status: Статус питомца (available, pending, sold)
-        :return: Ответ от сервера (httpx.Response)
+        :param status: Pet status (available, pending, sold).
+        :return: Raw HTTP response.
         """
         return self.get(f"{APIRoutes.PET}/findByStatus", params={"status": status})
 
     @allure.step("Upload image for pet {pet_id}")
     def upload_image_api(self, pet_id: int, file: BinaryIO) -> Response:
         """
-        Загрузка изображения для питомца.
+        Uploads an image for a pet.
 
-        :param pet_id: ID питомца
-        :param file: Файл изображения (binary)
-        :return: Ответ от сервера (httpx.Response)
+        :param pet_id: Pet ID.
+        :param file: Image file (binary stream).
+        :return: Raw HTTP response.
         """
         return self.post(f"{APIRoutes.PET}/{pet_id}/uploadImage", files={"file": file})
 
     @allure.step("Delete pet {pet_id}")
     def delete_pet_api(self, pet_id: int) -> Response:
         """
-        Удаление питомца.
+        Deletes a pet.
 
-        :param pet_id: ID питомца
-        :return: Ответ от сервера (httpx.Response)
+        :param pet_id: Pet ID.
+        :return: Raw HTTP response.
         """
         return self.delete(f"{APIRoutes.PET}/{pet_id}")
 
     @allure.step("Update pet by id {pet_id}")
     def update_pet_by_id_api(self, pet_id: int, name: str, status: str) -> Response:
         """
-        Частичное обновление питомца (имя и статус).
+        Partially updates pet fields (name and status).
 
-        :param pet_id: ID питомца
-        :param name: Новое имя питомца
-        :param status: Новый статус питомца
-        :return: Ответ от сервера (httpx.Response)
+        :param pet_id: Pet ID.
+        :param name: New pet name.
+        :param status: New pet status.
+        :return: Raw HTTP response.
         """
         return self.post(f"{APIRoutes.PET}/{pet_id}", data={"name": name, "status": status})
 
@@ -87,8 +87,8 @@ class PetClient(APIClient):
 
 def get_pet_client() -> PetClient:
     """
-    Создаёт PetClient с базовым HTTP клиентом.
+    Creates a PetClient instance with a configured HTTP client.
 
-    :return: PetClient
+    :return: PetClient instance.
     """
     return PetClient(client=get_http_client())

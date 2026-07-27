@@ -2,6 +2,9 @@ from enum import Enum
 
 
 class APIRoutes(str, Enum):
+    """
+    Enum containing base API routes.
+    """
     PET = "/pet"
     STORE = "/store"
     USER = "/user"

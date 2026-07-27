@@ -3,7 +3,6 @@ from tools.fakers import fake
 
 
 class CategorySchema(BaseModel):
-    # Позволяет передавать данные как по имени поля (snake_case), так и по его alias (camelCase).
     model_config = ConfigDict(populate_by_name=True)
 
     id: int
@@ -17,8 +16,8 @@ class TagSchema(BaseModel):
 
 class PetSchema(BaseModel):
     """
-        Описание структуры Pet.
-        """
+    Represents the Pet entity structure.
+    """
     model_config = ConfigDict(populate_by_name=True)
 
     id: int
@@ -29,6 +28,9 @@ class PetSchema(BaseModel):
     status: str
 
 class CreatePetRequestSchema(BaseModel):
+    """
+    Schema for creating a new pet.
+    """
     model_config = ConfigDict(populate_by_name=True)
 
     id: int = Field(default_factory=fake.id)
@@ -39,9 +41,15 @@ class CreatePetRequestSchema(BaseModel):
     status: str = Field(default_factory=fake.status)
 
 class CreatePetResponseSchema(PetSchema):
+    """
+    Schema for pet creation response.
+    """
     pass
 
 class UpdatePetRequestSchema(BaseModel):
+    """
+    Schema for updating a pet.
+    """
     model_config = ConfigDict(populate_by_name=True)
 
     id: int = Field(default_factory=fake.id)
@@ -52,4 +60,7 @@ class UpdatePetRequestSchema(BaseModel):
     status: str = Field(default_factory=fake.status)
 
 class UpdatePetResponseSchema(PetSchema):
+    """
+    Schema for pet update response.
+    """
     pass

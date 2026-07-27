@@ -10,39 +10,39 @@ class OrderClient(APIClient):
     @allure.step("Create order")
     def create_order_api(self, request: CreateOrderRequestSchema) -> Response:
         """
-        Создание заказа.
+        Creates a new order.
 
-        :param request: Тело запроса с данными заказа
-        :return: Ответ от сервера (httpx.Response)
+        :param request: Request body with order data.
+        :return: Raw HTTP response.
         """
         return self.post(f"{APIRoutes.STORE}/order", json=request.model_dump(by_alias=True, mode="json"))
 
     @allure.step("Get order by id: {order_id}")
     def get_order_by_id_api(self, order_id: int) -> Response:
         """
-        Получение заказа по ID.
+        Retrieves an order by its ID.
 
-        :param order_id: ID заказа
-        :return: Ответ от сервера (httpx.Response)
+        :param order_id: Order ID.
+        :return: Raw HTTP response.
         """
         return self.get(f"{APIRoutes.STORE}/order/{order_id}")
 
     @allure.step("Get store inventory")
     def get_store_inventory_api(self) -> Response:
         """
-        Получение списка инвенторя.
+        Retrieves store inventory.
 
-        :return: Ответ от сервера (httpx.Response)
+        :return: Raw HTTP response.
         """
         return self.get(f"{APIRoutes.STORE}/inventory")
 
     @allure.step("Delete order by id: {order_id}")
     def delete_order_by_id_api(self, order_id: int) -> Response:
         """
-        Удаление заказа.
+        Deletes an order by its ID.
 
-        :param order_id: ID заказа
-        :return: Ответ от сервера (httpx.Response)
+        :param order_id: Order ID.
+        :return: Raw HTTP response.
         """
         return self.delete(f"{APIRoutes.STORE}/order/{order_id}")
 
@@ -52,8 +52,8 @@ class OrderClient(APIClient):
 
 def get_order_client() -> OrderClient:
     """
-    Создаёт OrderClient с базовым HTTP клиентом.
+    Creates an OrderClient instance with a configured HTTP client.
 
-    :return: OrderClient
+    :return: OrderClient instance.
     """
     return OrderClient(client=get_http_client())

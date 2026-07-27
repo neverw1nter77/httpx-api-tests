@@ -4,7 +4,9 @@ from datetime import datetime
 
 
 class OrderSchema(BaseModel):
-    """модель ДАННЫХ (как объект выглядит)"""
+    """
+    Represents the order entity structure.
+    """
     model_config = ConfigDict(populate_by_name=True)
 
     id: int
@@ -15,7 +17,9 @@ class OrderSchema(BaseModel):
     complete: bool
 
 class CreateOrderRequestSchema(BaseModel):
-    """модель ЗАПРОСА (что я отправляю)"""
+    """
+    Schema for creating a new order.
+    """
     model_config = ConfigDict(populate_by_name=True)
 
     id: int = Field(default_factory=fake.id)
@@ -26,4 +30,7 @@ class CreateOrderRequestSchema(BaseModel):
     complete: bool = Field(default_factory=fake.complete)
 
 class CreateOrderResponseSchema(OrderSchema):
+    """
+    Schema for order creation response.
+    """
     pass

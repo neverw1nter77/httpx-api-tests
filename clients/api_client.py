@@ -6,20 +6,19 @@ from httpx._types import RequestData, RequestFiles
 class APIClient:
     def __init__(self, client: Client):
         """
-             Базовый API клиент, принимающий объект httpx.Client.
-
-             :param client: экземпляр httpx.Client для выполнения HTTP-запросов
-             """
+        Base API client for HTTP requests.
+        Provides logging, basic error handling, and Allure steps.
+        """
         self.client = client
 
     @allure.step("GET request to {url}")
     def get(self, url: URL | str, params: QueryParams | None = None) -> Response:
         """
-        Выполняет GET-запрос.
+        Sends a GET request.
 
-        :param url: URL-адрес эндпоинта.
-        :param params: GET-параметры запроса (например, ?key=value).
-        :return: Объект Response с данными ответа.
+        :param url: Endpoint URL.
+        :param params: Query parameters (e.g., ?key=value).
+        :return: Response object containing the server response.
         """
         return self.client.get(url, params=params)
 
@@ -32,13 +31,13 @@ class APIClient:
             files: RequestFiles | None = None
     ) -> Response:
         """
-        Выполняет POST-запрос.
+        Sends a POST request.
 
-        :param url: URL-адрес эндпоинта.
-        :param json: Данные в формате JSON.
-        :param data: Форматированные данные формы (например, application/x-www-form-urlencoded).
-        :param files: Файлы для загрузки на сервер.
-        :return: Объект Response с данными ответа.
+        :param url: Endpoint URL.
+        :param json: Data in JSON format.
+        :param data: Form data (e.g., application/x-www-form-urlencoded).
+        :param files: Files to upload.
+        :return: Response object containing the server response.
         """
         return self.client.post(url, json=json, data=data, files=files)
 
@@ -51,20 +50,20 @@ class APIClient:
             files: RequestFiles | None = None
     ) -> Response:
         """
-        Выполняет PUT-запрос (полное обновление данных).
+        Sends a PUT request (full update of a resource).
 
-        :param url: URL-адрес эндпоинта.
-        :param json: Данные для обновления в формате JSON.
-        :return: Объект Response с данными ответа.
+        :param url: Endpoint URL.
+        :param json: Data for updating in JSON format.
+        :return: Response object containing the server response.
         """
         return self.client.put(url, json=json, data=data, files=files)
 
     @allure.step("DELETE request to {url}")
     def delete(self, url: URL | str) -> Response:
         """
-        Выполняет DELETE-запрос (удаление данных).
+        Sends a DELETE request (removes a resource).
 
-        :param url: URL-адрес эндпоинта.
-        :return: Объект Response с данными ответа.
+        :param url: Endpoint URL.
+        :return: Response object containing the server response.
         """
         return self.client.delete(url)

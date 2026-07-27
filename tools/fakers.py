@@ -1,10 +1,13 @@
 from faker import Faker
 from datetime import datetime
 class Fake:
+    """
+    Utility class for generating test data using Faker.
+    """
 
     def __init__(self, faker: Faker):
         """
-        :param faker: Экземпляр класса Faker, который будет использоваться для генерации данных.
+        :param faker: Faker instance used to generate fake data.
         """
         self.faker = faker
 
