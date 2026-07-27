@@ -56,7 +56,16 @@ jobs:
           name: allure-results
           path: allure-results
 
-      # Генерируем отчёт через Docker с Allure
+      # Устанавливаем Allure через apt (более надёжно)
+      - name: Install Allure
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget unzip
+          wget https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.zip
+          sudo unzip allure-2.27.0.zip -d /opt/
+          sudo ln -s /opt/allure-2.27.0/bin/allure /usr/local/bin/allure
+          allure --version
+
       - name: Generate Allure Report
         run: |
           # Копируем историю из gh-pages если есть
@@ -68,13 +77,11 @@ jobs:
             echo "No history found, starting fresh"
           fi
           
-          # Генерируем отчёт через Docker
-          docker run --rm -v $(pwd):/app -w /app franko/allure:2.27.0 \
-            allure generate allure-results -o allure-report --clean
+          # Генерируем отчёт
+          allure generate allure-results -o allure-report --clean
           
           echo "Report generated successfully"
 
-      # Подготавливаем структуру для публикации
       - name: Prepare for deployment
         run: |
           # Создаём папку для деплоя
