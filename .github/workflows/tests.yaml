@@ -56,7 +56,7 @@ jobs:
           name: allure-results
           path: allure-results
 
-      # Устанавливаем Allure через apt (более надёжно)
+
       - name: Install Allure
         run: |
           sudo apt-get update
@@ -68,7 +68,7 @@ jobs:
 
       - name: Generate Allure Report
         run: |
-          # Копируем историю из gh-pages если есть
+          
           if [ -d "gh-pages/history" ]; then
             mkdir -p allure-results/history
             cp -r gh-pages/history/* allure-results/history/ || true
@@ -77,32 +77,23 @@ jobs:
             echo "No history found, starting fresh"
           fi
           
-          # Генерируем отчёт
+          
           allure generate allure-results -o allure-report --clean
           
           echo "Report generated successfully"
 
       - name: Prepare for deployment
         run: |
-          # Создаём папку для деплоя
           mkdir -p deploy
-          
-          # Копируем сгенерированный отчёт
           cp -r allure-report/* deploy/ || true
-          
-          # Сохраняем историю для будущих запусков
           if [ -d "allure-report/history" ]; then
             mkdir -p deploy/history
             cp -r allure-report/history/* deploy/history/ || true
           fi
-          
-          # Если есть старая история из gh-pages, сохраняем её
           if [ -d "gh-pages/history" ]; then
             mkdir -p deploy/history
             cp -r gh-pages/history/* deploy/history/ || true
           fi
-          
-          # Копируем .nojekyll если есть
           if [ -f "gh-pages/.nojekyll" ]; then
             cp gh-pages/.nojekyll deploy/ || true
           fi
