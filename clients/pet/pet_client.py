@@ -11,7 +11,7 @@ class PetClient(APIClient):
     @allure.step("Create pet")
     def create_pet_api(self, request: CreatePetRequestSchema) -> Response:
         """
-        Creates a new pet .
+        Creates a new pet  .
 
         :param request: Request body with pet data.
         :return: Raw HTTP response.
