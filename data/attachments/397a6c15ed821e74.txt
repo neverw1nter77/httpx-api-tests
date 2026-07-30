@@ -1,0 +1,10 @@
+curl -X 'POST' \
+  'https://petstore.swagger.io/v2/pet' \
+  -H 'host: petstore.swagger.io' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'content-length: 160' \
+  -H 'content-type: application/json' \
+  -d '{"id":6680,"category":{"id":5905,"name":"cat"},"name":"Daniel","photoUrls":["https://picsum.photos/850/279"],"tags":[{"id":6509,"name":"view"}],"status":"sold"}'

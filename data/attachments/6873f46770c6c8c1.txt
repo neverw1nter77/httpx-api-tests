@@ -1,0 +1,4 @@
+INFO     clients.event_hooks:event_hooks.py:26 Make POST request to https://petstore.swagger.io/v2/user
+INFO     clients.event_hooks:event_hooks.py:35 Got response 200 OK from https://petstore.swagger.io/v2/user
+INFO     clients.event_hooks:event_hooks.py:26 Make GET request to https://petstore.swagger.io/v2/user/login?username=Nathan+Burns&password=%2BJld%219IyqH
+INFO     clients.event_hooks:event_hooks.py:35 Got response 200 OK from https://petstore.swagger.io/v2/user/login?username=Nathan+Burns&password=%2BJld%219IyqH

@@ -1,0 +1,10 @@
+curl -X 'POST' \
+  'https://petstore.swagger.io/v2/pet' \
+  -H 'host: petstore.swagger.io' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'content-length: 170' \
+  -H 'content-type: application/json' \
+  -d '{"id":6896,"category":{"id":9219,"name":"bird"},"name":"Bradley","photoUrls":["https://picsum.photos/334/651"],"tags":[{"id":6739,"name":"beautiful"}],"status":"pending"}'
