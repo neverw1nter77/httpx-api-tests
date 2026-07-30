@@ -1,0 +1,10 @@
+curl -X 'POST' \
+  'https://petstore.swagger.io/v2/user' \
+  -H 'host: petstore.swagger.io' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'content-length: 175' \
+  -H 'content-type: application/json' \
+  -d '{"id":3306,"username":"Gregory James","firstName":"Anna","lastName":"Morgan","email":"jared59@example.org","password":"$xX96Fo97W","phone":"001-571-883-2282","userStatus":264}'

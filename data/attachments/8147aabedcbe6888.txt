@@ -1,0 +1,7 @@
+curl -X 'GET' \
+  'https://petstore.swagger.io/v2/user/login?username=Gregory+James&password=%24xX96Fo97W' \
+  -H 'host: petstore.swagger.io' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1'
